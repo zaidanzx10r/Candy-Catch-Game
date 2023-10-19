@@ -15,6 +15,11 @@ public static class InputManager
             myPlayer.SetMovementDirection(ctx.ReadValue<Vector3>());
         };
 
+        _controls.Game.SpawnCandy.performed += ctx =>
+        {
+            myPlayer.Candy();
+        };
+
         _controls.Permanent.Enable();
     }
 

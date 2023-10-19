@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] private Rigidbody2D candyPrefab;
     [SerializeField] private float speed;
+    [SerializeField] private float fallSpeed;
+
+    private Vector2 _stayPosition = new Vector2(0, 10);
+    
     private Rigidbody2D _rb;
 
     private Vector3 _moveDirection;
@@ -27,5 +32,14 @@ public class Player : MonoBehaviour
     public void SetMovementDirection(Vector3 newDirection)
     {
         _moveDirection = newDirection;
-    } 
+    }
+
+    public void Candy()
+    {
+        candyPrefab.position = _stayPosition;
+
+        Rigidbody2D currentCandy = Instantiate(candyPrefab, transform.position, Quaternion.identity);
+
+        currentCandy.AddForce(_stayPosition * fallSpeed, ForceMode2D.Impulse);
+    }
 }

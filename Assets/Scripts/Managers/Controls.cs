@@ -35,6 +35,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""SpawnCandy"",
+                    ""type"": ""Button"",
+                    ""id"": ""71223a75-5a4e-4822-869e-20adc9c8e071"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -125,6 +134,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""be4852f3-9a5a-42e0-995a-795c28a63247"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SpawnCandy"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -190,6 +210,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         // Game
         m_Game = asset.FindActionMap("Game", throwIfNotFound: true);
         m_Game_Movement = m_Game.FindAction("Movement", throwIfNotFound: true);
+        m_Game_SpawnCandy = m_Game.FindAction("SpawnCandy", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Newaction = m_UI.FindAction("New action", throwIfNotFound: true);
@@ -258,11 +279,13 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Game;
     private List<IGameActions> m_GameActionsCallbackInterfaces = new List<IGameActions>();
     private readonly InputAction m_Game_Movement;
+    private readonly InputAction m_Game_SpawnCandy;
     public struct GameActions
     {
         private @Controls m_Wrapper;
         public GameActions(@Controls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Game_Movement;
+        public InputAction @SpawnCandy => m_Wrapper.m_Game_SpawnCandy;
         public InputActionMap Get() { return m_Wrapper.m_Game; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -275,6 +298,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Movement.started += instance.OnMovement;
             @Movement.performed += instance.OnMovement;
             @Movement.canceled += instance.OnMovement;
+            @SpawnCandy.started += instance.OnSpawnCandy;
+            @SpawnCandy.performed += instance.OnSpawnCandy;
+            @SpawnCandy.canceled += instance.OnSpawnCandy;
         }
 
         private void UnregisterCallbacks(IGameActions instance)
@@ -282,6 +308,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Movement.started -= instance.OnMovement;
             @Movement.performed -= instance.OnMovement;
             @Movement.canceled -= instance.OnMovement;
+            @SpawnCandy.started -= instance.OnSpawnCandy;
+            @SpawnCandy.performed -= instance.OnSpawnCandy;
+            @SpawnCandy.canceled -= instance.OnSpawnCandy;
         }
 
         public void RemoveCallbacks(IGameActions instance)
@@ -394,6 +423,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     public interface IGameActions
     {
         void OnMovement(InputAction.CallbackContext context);
+        void OnSpawnCandy(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
